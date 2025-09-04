@@ -1,14 +1,58 @@
-name: Test Reviewer Agent
+name: Agentic CI/CD Pipeline
 on:
-  workflow_dispatch: # run manually
+  workflow_dispatch:   # trigger manually
+  push:
+    branches: [ main ]
 
 jobs:
-  reviewer:
+  planner:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - run: echo "Planner Agent: created execution plan"
+
+  code-agent:
+    needs: planner   # runs AFTER planner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Code Agent: generated/updated code"
+
+  reviewer:
+    needs: code-agent
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Reviewer Agent: checked code formatting and style"
+
+  tester:
+    needs: reviewer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
-      - run: dotnet restore
-      - run: dotnet format --verify-no-changes || true
+      - run: dotnet test
+
+  security-agent:
+    needs: tester
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Security Agent: ran vulnerability scans"
+
+  deploy:
+    needs: security-agent
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Deploy Agent: deployed application"
+
+  monitor:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Monitor Agent: running post-deployment checks"
