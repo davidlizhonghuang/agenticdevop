@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "4pNba+Zztfc=",
+  "success": true,
+  "projectFilePath": "c:\\forex\\agentdevopt\\src\\AgenticDemo\\AgenticDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\AG_2021SER01\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.0-preview.1.25120.3\\microsoft.aspnetcore.openapi.10.0.0-preview.1.25120.3.nupkg.sha512",
+    "C:\\Users\\AG_2021SER01\\.nuget\\packages\\microsoft.openapi\\2.0.0-preview5\\microsoft.openapi.2.0.0-preview5.nupkg.sha512"
+  ],
+  "logs": []
+}
